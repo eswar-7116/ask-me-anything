@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "outDir": "../.vercel/output/functions/api",
+    "rootDir": ".",
+    "skipLibCheck": true
+  },
+  "include": ["./**/*.ts"]
+}
