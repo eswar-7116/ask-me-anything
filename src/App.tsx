@@ -60,7 +60,7 @@ export default function App() {
   };
 
   return (
-    <div className="custom-font h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8">
+    <div className="custom-font min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8">
       <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center">
         Ask me anything
       </h1>
