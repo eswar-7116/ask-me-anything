@@ -78,6 +78,7 @@ export default function App() {
       const res = await axios.post("/api/ask", { question });
       setAnswer(converter.makeHtml(res.data.answer));
     } catch (err) {
+      setDisplayedAnswer("");
       setError("Something went wrong. Please try again.");
       console.error(err);
     } finally {
