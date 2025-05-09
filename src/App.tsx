@@ -10,15 +10,30 @@ import {
 } from "react";
 import { Textarea } from "./components/ui/textarea";
 import showdown from "showdown";
+import { motion } from "framer-motion";
 
 export default function App() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [displayedAnswer, setDisplayedAnswer] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const converter = new showdown.Converter();
+
+  useEffect(() => {
+    if (!answer) return;
+    let index = 0;
+    const plain = answer;
+
+    const interval = setInterval(() => {
+      setDisplayedAnswer(plain.slice(0, index++));
+      if (index > plain.length) clearInterval(interval);
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, [answer]);
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -111,7 +126,12 @@ export default function App() {
         )}
 
         {(answer || loading) && (
-          <div className="mt-4 sm:mt-6 p-4 sm:p-6 border-2 border-white rounded-lg w-full overflow-hidden">
+          <motion.div
+            className="mt-4 sm:mt-6 p-4 sm:p-6 border-2 border-white rounded-lg w-full overflow-hidden"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
             {loading ? (
               <div className="text-lg sm:text-xl whitespace-pre-wrap break-words">
                 <span className="inline-block animate-pulse">T</span>
@@ -179,10 +199,13 @@ export default function App() {
             ) : (
               <div
                 className="text-lg sm:text-xl whitespace-pre-wrap font-noto-sans break-words"
-                dangerouslySetInnerHTML={{ __html: answer }}
+                style={{
+                  animation: "fadeSlideIn 0.5s ease-out both",
+                }}
+                dangerouslySetInnerHTML={{ __html: displayedAnswer }}
               />
             )}
-          </div>
+          </motion.div>
         )}
       </div>
     </div>
