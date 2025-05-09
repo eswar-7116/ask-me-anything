@@ -23,6 +23,17 @@ export default function App() {
   const converter = new showdown.Converter();
 
   useEffect(() => {
+    const focusTextarea = (_evt: globalThis.KeyboardEvent) => {
+      if (document.activeElement !== textareaRef?.current)
+        textareaRef.current?.focus();
+    };
+
+    document.addEventListener("keydown", focusTextarea);
+
+    return () => document.removeEventListener("keydown", focusTextarea);
+  });
+
+  useEffect(() => {
     if (!answer) return;
     let index = 0;
     const plain = answer;
